@@ -4,6 +4,9 @@ set -euo pipefail
 TURSO_GO_VERSION=${TURSO_GO_VERSION:-v0.8.0-pre.11}
 TURSO_GO_TEST_TAGS=${TURSO_GO_TEST_TAGS:-}
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+if command -v cygpath >/dev/null 2>&1; then
+  ROOT=$(cygpath -m "$ROOT")
+fi
 TEST_DIR=$(mktemp -d)
 trap 'rm -rf "$TEST_DIR"' EXIT
 
