@@ -180,8 +180,8 @@ jobs:
           if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
             echo "Branch $BRANCH exists on remote — checking it out."
 
-            git fetch origin "$BRANCH":"$BRANCH"
-            git checkout "$BRANCH"
+            git fetch origin "$BRANCH"
+            git checkout -B "$BRANCH" "origin/$BRANCH"
           else
             echo "Branch $BRANCH does not exist — creating it."
             git checkout -b "$BRANCH"
