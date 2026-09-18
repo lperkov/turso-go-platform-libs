@@ -8,6 +8,7 @@ if "%TURSO_RS_REPO%"=="" set TURSO_RS_REPO=https://github.com/tursodatabase/turs
 if "%TURSO_RS_BUILD_PROFILE%"=="" set TURSO_RS_BUILD_PROFILE=lib-release
 if "%TURSO_RS_BUILD_DIR%"=="" set TURSO_RS_BUILD_DIR=turso-rs
 if "%TURSO_RS_PACKAGE%"=="" set TURSO_RS_PACKAGE=turso_sync_sdk_kit
+if "%TURSO_RS_FEATURES%"=="" set TURSO_RS_FEATURES=turso_core/fts
 if "%TURSO_RS_LIBC_VARIANT%"=="" set TURSO_RS_LIBC_VARIANT=
 if "%TURSO_GO_LIB_DIR%"=="" set TURSO_GO_LIB_DIR=libs
 
@@ -57,6 +58,7 @@ echo TURSO_RS_REPO: %TURSO_RS_REPO%
 echo TURSO_RS_BUILD_REF: %TURSO_RS_BUILD_REF%
 echo TURSO_RS_BUILD_DIR: %TURSO_RS_BUILD_DIR%
 echo TURSO_RS_PACKAGE: %TURSO_RS_PACKAGE%
+echo TURSO_RS_FEATURES: %TURSO_RS_FEATURES%
 echo PLATFORM: %PLATFORM%
 echo OUTPUT_NAME: %OUTPUT_NAME%
 echo CARGO_OUT_DIR: %CARGO_OUT_DIR%
@@ -77,7 +79,7 @@ if errorlevel 1 (
 :: --------------------------------
 pushd "%TURSO_RS_BUILD_DIR%"
 echo Building %TURSO_RS_PACKAGE% (%TURSO_RS_BUILD_PROFILE%) for %PLATFORM%
-cargo build --profile "%TURSO_RS_BUILD_PROFILE%" --package "%TURSO_RS_PACKAGE%"
+cargo build --locked --profile "%TURSO_RS_BUILD_PROFILE%" --package "%TURSO_RS_PACKAGE%" --features "%TURSO_RS_FEATURES%"
 if errorlevel 1 (
     echo Cargo build failed
     popd
