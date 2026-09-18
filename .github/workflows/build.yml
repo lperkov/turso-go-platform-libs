@@ -122,11 +122,15 @@ jobs:
 
       - name: run test (host, musl)
         if: matrix.manual_container != true && matrix.musl_tag == true
-        run: go test --tags musl ./... -v
+        run: |
+          go test --tags musl ./... -v
+          TURSO_GO_TEST_TAGS=musl bash ./test_fts.sh
 
       - name: run test (host, glibc)
         if: matrix.manual_container != true && matrix.musl_tag != true
-        run: go test ./... -v
+        run: |
+          go test ./... -v
+          bash ./test_fts.sh
 
       - name: run test (container, musl)
         if: matrix.manual_container == true
@@ -134,8 +138,9 @@ jobs:
           docker run --rm \
             -v $PWD:/work -w /work \
             alpine:latest /bin/sh -c "
-              apk add --no-cache go && \
-              go test --tags musl ./... -v
+              apk add --no-cache go bash && \
+              go test --tags musl ./... -v && \
+              TURSO_GO_TEST_TAGS=musl bash ./test_fts.sh
             "
 
       - name: Upload platform artifact
